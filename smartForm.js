@@ -1,16 +1,14 @@
 // Your jQuery goes here
 
 var userData = {
-  name:'',
-  email:'',
-  html:[],
-  css:[],
-  js:[],
-  htmlskill:null,
-  cssskill:null,
-  jsskill:null
+  name:"",
+  email:"",
+  html:{likes:[],dislikes:[]},
+  css:{likes:[],dislikes:[]},
+  js:{likes:[],dislikes:[]},
+  skills:{html:"",css:"",js:""},
+  surveyState:0
 };
-
 var form_checker=[false,false,false];
 
 $("#startButton").click(function(){
@@ -57,6 +55,7 @@ $("#question2ButtonNext").click(function()
   else if(validateEmail(email) && validateName(name)){
     userData.name= $("#name").val();
     userData.email= $("#exampleInputEmail1").val();
+    window.localStorage.userData = JSON.stringify(userData);
     $("#q1").hide();
     $("#q2").show();
   }
@@ -76,10 +75,14 @@ $("#Jsbutton").click(function(){
   $("#q2c").show();
 });
 
-$("#q2a").click(function() {
 		$(':checkbox[name=likesHTML]').click(function() {
 			if (this.checked) {
-				userData.html.push(this.value);
+				userData.html.likes.push(this.value);
+			}
+    });
+    $(':checkbox[name=DlikesHTML]').click(function() {
+			if (this.checked) {
+				userData.html.dislikes.push(this.value);
 			}
     });
 
@@ -91,17 +94,22 @@ $("#q2a").click(function() {
         $("#q3").show();
       }
       else {
+        window.localStorage.userData = JSON.stringify(userData);
         $("#q2a").hide();
         $("#q2b").show();
         form_checker[0]=true;
       }
     });
-});
 
-$("#q2b").click(function() {
+
 		$(':checkbox[name=likesCSS]').click(function() {
 			if (this.checked) {
-				userData.css.push(this.value);
+				userData.css.likes.push(this.value);
+			}
+    });
+    $(':checkbox[name=DlikesCSS]').click(function() {
+			if (this.checked) {
+				userData.css.dislikes.push(this.value);
 			}
     });
 
@@ -113,36 +121,45 @@ $("#q2b").click(function() {
         $("#q3").show();
       }
       else{
+        window.localStorage.userData = JSON.stringify(userData);
         $("#q2b").hide();
         $("#q2c").show();
         form_checker[1]=true;
       }
     });
-});
 
-$("#q2c").click(function() {
+
+
 		$(':checkbox[name=likesJS]').click(function() {
 			if (this.checked) {
-				userData.js.push(this.value);
+				userData.js.likes.push(this.value);
 			}
     });
 
+    $(':checkbox[name=DlikesJS]').click(function() {
+			if (this.checked) {
+				userData.js.dislikes.push(this.value);
+			}
+    });
 
     $("#Jsnext").click(function(){
+      form_checker[2]=true;
       if(form_checker[0]==false)
       {
+        window.localStorage.userData = JSON.stringify(userData);
         $("#q2c").hide();
         $("#q2a").show();
       }
-      form_checker[2]=true;
+
       else if(form_checker[0]==true && form_checker[1]==true &&form_checker[2]==true)
       {
         $("#q2c").hide();
         $("#q3").show();
+        console.log(userData);
       }
 
       });
-});
+
 
 $("#Htmlprev").click(function(){
   $("#q2a").hide();
