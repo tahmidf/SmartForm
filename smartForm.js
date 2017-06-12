@@ -7,15 +7,41 @@ var userData = {
   css:{likes:[],dislikes:[]},
   js:{likes:[],dislikes:[]},
   skills:{html:"",css:"",js:""},
-  surveyState:0
+  surveyState:[false,false,false,false,false]
 };
 var form_checker=[false,false,false];
 
+$(document).ready(function()
+{
+  if(userData.surveyState[0]==true)
+  {
+    $("#name").val()=userData.name;
+    $("#exampleInputEmail1").val()=userData.email;
+  }
+  if(userData.surveyState[1]==true)
+  {
+    $("#likesHTML")==userData.html.likes;
+    $("#DlikesHTML")==userData.html.dislikes;
+  }
+  if(userData.surveyState[2]==true){
+    $("#likesCSS")==userData.css.likes;
+    $("#DlikesCSS")==userData.css.dislikes;
+  }
+  if(userData.surveyState[3]==true)
+  {
+    $("#likesJS")==userData.js.likes;
+    $("#DlikesJS")==userData.js.dislikes;
+  }
+  else{
+    console.log("Its not done");
+  }
+});
 $("#startButton").click(function(){
   //$("#welcome").animate({left: '250px'});
   $("#welcome").hide();
   $("#q1").show();
 });
+
 
 
 function validateEmail(email) {
@@ -53,6 +79,7 @@ $("#question2ButtonNext").click(function()
     $('#exampleInputEmail1').focus();
   }
   else if(validateEmail(email) && validateName(name)){
+    userData.surveyState[0]=true;
     userData.name= $("#name").val();
     userData.email= $("#exampleInputEmail1").val();
     window.localStorage.userData = JSON.stringify(userData);
@@ -75,29 +102,40 @@ $("#Jsbutton").click(function(){
   $("#q2c").show();
 });
 
+var htmlclick=0;
 		$(':checkbox[name=likesHTML]').click(function() {
 			if (this.checked) {
+        htmlclick+=1;
 				userData.html.likes.push(this.value);
 			}
     });
     $(':checkbox[name=DlikesHTML]').click(function() {
 			if (this.checked) {
+        htmlclick+=1;
 				userData.html.dislikes.push(this.value);
 			}
     });
 
 
     $("#Htmlnext").click(function(){
+      form_checker[0]=true;
       if(form_checker[0]==true && form_checker[1]==true &&form_checker[2]==true)
       {
+        userData.surveyState[1]=true;
         $("#q2a").hide();
         $("#q3").show();
       }
       else {
-        window.localStorage.userData = JSON.stringify(userData);
-        $("#q2a").hide();
-        $("#q2b").show();
-        form_checker[0]=true;
+        if(htmlclick<2)
+        {
+          alert("You have to fill all the questions");
+        }
+        else {
+          userData.surveyState[1]=true;
+          window.localStorage.userData = JSON.stringify(userData);
+          $("#q2a").hide();
+          $("#q2b").show();
+        }
       }
     });
 
@@ -113,22 +151,22 @@ $("#Jsbutton").click(function(){
 			}
     });
 
-
     $("#Cssnext").click(function(){
+      form_checker[1]=true;
       if(form_checker[0]==true && form_checker[1]==true &&form_checker[2]==true)
       {
+        userData.surveyState[2]=true;
         $("#q2b").hide();
         $("#q3").show();
       }
       else{
+        userData.surveyState[2]=true;
         window.localStorage.userData = JSON.stringify(userData);
         $("#q2b").hide();
         $("#q2c").show();
-        form_checker[1]=true;
+
       }
     });
-
-
 
 		$(':checkbox[name=likesJS]').click(function() {
 			if (this.checked) {
@@ -146,6 +184,7 @@ $("#Jsbutton").click(function(){
       form_checker[2]=true;
       if(form_checker[0]==false)
       {
+        userData.surveyState[3]=true;
         window.localStorage.userData = JSON.stringify(userData);
         $("#q2c").hide();
         $("#q2a").show();
@@ -153,13 +192,34 @@ $("#Jsbutton").click(function(){
 
       else if(form_checker[0]==true && form_checker[1]==true &&form_checker[2]==true)
       {
+        userData.surveyState[3]=true;
         $("#q2c").hide();
         $("#q3").show();
-        console.log(userData);
       }
-
       });
 
+      $(':radio[name=hinlineRadioOptions]').click(function() {
+  			if (this.checked) {
+  				userData.skills.html=this.value;
+  			}
+      });
+      $(':radio[name=cinlineRadioOptions]').click(function() {
+  			if (this.checked) {
+  				userData.skills.css=this.value;
+  			}
+      });
+      $(':radio[name=jinlineRadioOptions]').click(function() {
+  			if (this.checked) {
+  				userData.skills.js=this.value;
+  			}
+      });
+
+      $("#q3next").click(function(){
+        userData.surveyState[4]=true;
+        window.localStorage.userData = JSON.stringify(userData);
+        $("#q3").hide();
+        $("#thanks").show();
+      });
 
 $("#Htmlprev").click(function(){
   $("#q2a").hide();
@@ -174,12 +234,33 @@ $("#Jsprev").click(function(){
   $("#q2b").show();
 });
 
-$("#q3next").click(function(){
-  $("#q3").hide();
-  $("#thanks").show();
-});
-
 $("#q3prev").click(function(){
   $("#q3").hide();
   $("#q2").show();
+});
+
+$("#answer").click(function(){
+			$("#show").show();
+			$("#show").html(JSON.stringify(userData, null, 2));
+
+});
+
+$("#delete").click(function(){
+			window.localStorage.clear();
+      userData={
+      name:"",
+      email:"",
+      html:{likes:[],dislikes:[]},
+      css:{likes:[],dislikes:[]},
+      js:{likes:[],dislikes:[]},
+      skills:{html:"",css:"",js:""},
+      surveyState:[false,false,false,false,false]
+    };
+			$("#show").hide();
+});
+
+$("#initial").click(function(){
+			$("#show").hide();
+			$("#thanks").hide();
+      $("#welcome").show();
 });
