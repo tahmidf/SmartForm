@@ -38,10 +38,8 @@ $(document).ready(function()
 });
 $("#startButton").click(function(){
   //$("#welcome").animate({left: '250px'});
-  $("#welcome").fadeToggle("slow");
-  $("#q1").fadeIn(3000);
-
-  //$("#q1").show();
+  $("#welcome").hide();
+  $("#q1").show();
 });
 
 
@@ -85,23 +83,23 @@ $("#question2ButtonNext").click(function()
     userData.name= $("#name").val();
     userData.email= $("#exampleInputEmail1").val();
     window.localStorage.userData = JSON.stringify(userData);
-    $("#q1").slideUp("slow");
-    $("#q2").slideDown("slow");
+    $("#q1").hide();
+    $("#q2").show();
   }
 });
 
 
 $("#Htmlbutton").click(function(){
-  $("#q2").fadeOut("slow");
-  $("#q2a").fadeIn("slow");
+  $("#q2").hide();
+  $("#q2a").show();
 });
 $("#Cssbutton").click(function(){
-  $("#q2").slideUp();
-  $("#q2b").slideDown();
+  $("#q2").hide();
+  $("#q2b").show();
 });
 $("#Jsbutton").click(function(){
-  $("#q2").slideUp();
-  $("#q2c").slideDown();
+  $("#q2").hide();
+  $("#q2c").show();
 });
 
 var htmlclick=0;
@@ -124,8 +122,8 @@ var htmlclick=0;
       if(form_checker[0]==true && form_checker[1]==true &&form_checker[2]==true)
       {
         userData.surveyState[1]=true;
-        $("#q2a").fadeOut("slow");
-        $("#q3").fadeIn("slow");
+        $("#q2a").hide();
+        $("#q3").show();
       }
       else {
         if(htmlclick<2)
@@ -135,8 +133,8 @@ var htmlclick=0;
         else {
           userData.surveyState[1]=true;
           window.localStorage.userData = JSON.stringify(userData);
-          $("#q2a").fadeOut("slow");
-          $("#q2b").fadeIn("slow");
+          $("#q2a").hide();
+          $("#q2b").show();
         }
       }
     });
@@ -158,14 +156,14 @@ var htmlclick=0;
       if(form_checker[0]==true && form_checker[1]==true &&form_checker[2]==true)
       {
         userData.surveyState[2]=true;
-        $("#q2b").slideUp();
-        $("#q3").slideDown();
+        $("#q2b").hide();
+        $("#q3").show();
       }
       else{
         userData.surveyState[2]=true;
         window.localStorage.userData = JSON.stringify(userData);
-        $("#q2b").slideUp();
-        $("#q2c").slideDown();
+        $("#q2b").hide();
+        $("#q2c").show();
 
       }
     });
@@ -188,15 +186,15 @@ var htmlclick=0;
       {
         userData.surveyState[3]=true;
         window.localStorage.userData = JSON.stringify(userData);
-        $("#q2c").fadeOut("slow");
-        $("#q2a").fadeIn("slow");
+        $("#q2c").hide();
+        $("#q2a").show();
       }
 
       else if(form_checker[0]==true && form_checker[1]==true &&form_checker[2]==true)
       {
         userData.surveyState[3]=true;
-        $("#q2c").fadeOut("slow");
-        $("#q3").fadeIn("slow");
+        $("#q2c").hide();
+        $("#q3").show();
       }
       });
 
@@ -219,36 +217,36 @@ var htmlclick=0;
       $("#q3next").click(function(){
         userData.surveyState[4]=true;
         window.localStorage.userData = JSON.stringify(userData);
-        $("#q3").slideUp();
-        $("#thanks").slideDown();
+        $("#q3").hide();
+        $("#thanks").show();
       });
 
 $("#Htmlprev").click(function(){
-  $("#q2a").fadeOut("slow");
-  $("#q2").fadeIn("slow");
+  $("#q2a").hide();
+  $("#q2").show();
 });
 $("#Cssprev").click(function(){
-  $("#q2b").slideUp();
-  $("#q2a").slideDown();
+  $("#q2b").hide();
+  $("#q2a").show();
 });
 $("#Jsprev").click(function(){
-  $("#q2c").fadeOut("slow");
-  $("#q2b").fadeIn("slow");
+  $("#q2c").hide();
+  $("#q2b").show();
 });
 
 $("#q3prev").click(function(){
-  $("#q3").fadeIn("slow");
-  $("#q2").fadeOut("slow");
+  $("#q3").hide();
+  $("#q2").show();
 });
 
 $("#answer").click(function(){
-			$("#show").show("slow");
-			$("#show").html(JSON.stringify(userData.name, null, 2));
+			$("#show").show();
+			$("#show").html(JSON.stringify(userData, null, 2));
 
 });
 
 $("#delete").click(function(){
-      localStorage.removeItem(userData);
+			window.localStorage.clear();
       userData={
       name:"",
       email:"",
@@ -258,12 +256,11 @@ $("#delete").click(function(){
       skills:{html:"",css:"",js:""},
       surveyState:[false,false,false,false,false]
     };
-			$("#show").slideUp("slow");
+			$("#show").hide();
 });
 
 $("#initial").click(function(){
-			$("#show").fadeOut("slow");
-			$("#thanks").slideUp("slow");
-      $("#welcome").slideDown("slow");
-      location.reload();
+			$("#show").hide();
+			$("#thanks").hide();
+      $("#welcome").show();
 });
